@@ -1070,7 +1070,7 @@
                 let resultTime, resultCps, resultLevel;
                 
                 if (timerMode) {
-                    resultTime = passed;
+                    resultTime = timerTime;
                     resultCps = resultTime > 0 ? (clicks / resultTime).toFixed(1) : clicks;
                     resultLevel = getSkillLevel(resultCps);
                 } else {
