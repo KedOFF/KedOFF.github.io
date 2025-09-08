@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KedOFF Projects Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-blue: #0a192f;
+            --navy: #112240;
+            --light-navy: #233554;
+            --lightest-navy: #303C55;
+            --slate: #8892b0;
+            --light-slate: #a8b2d1;
+            --lightest-slate: #ccd6f6;
+            --white: #e6f1ff;
+            --accent: #64ffda;
+            --osu-pink: #ff66aa;
+            --osu-dark-pink: #e64d95;
+            --osu-purple: #a366ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--navy) 100%);
+            color: var(--light-slate);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--light-slate);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .about-card {
+            background: rgba(17, 34, 64, 0.5);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .about-card h2 {
+            color: var(--white);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .about-card h2 i {
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        .about-content {
+            margin-bottom: 20px;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .skill-tag {
+            background: rgba(100, 255, 218, 0.1);
+            color: var(--accent);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: var(--light-slate);
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .projects-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            color: var(--white);
+            margin-bottom: 30px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card {
+            background: rgba(17, 34, 64, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .project-img {
+            height: 180px;
+            background: linear-gradient(135deg, var(--osu-dark-pink) 0%, var(--osu-purple) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-title {
+            color: var(--white);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .project-desc {
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: var(--slate);
+        }
+
+        .project-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--osu-pink);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .project-btn:hover {
+            background: var(--osu-dark-pink);
+            transform: translateY(-2px);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn i {
+            margin-right: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--white);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: auto;
+            padding: 30px 0;
+            color: var(--slate);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: var(--navy);
+            color: var(--accent);
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-code"></i>
+                <span>KedOFF</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Главная</a></li>
+                    <li><a href="#"><i class="fas fa-project-diagram"></i> Проекты</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> Контакты</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="about-card">
+                <h2><i class="fas fa-user"></i> Обо мне</h2>
+                <div class="about-content">
+                    <p>Привет! Я разработчик и энтузиаст, который любит создавать интересные и полезные проекты. В настоящее время я изучаю веб-технологии и разрабатываю различные инструменты для геймеров.</p>
+                    <p>Мой основной фокус - создание удобных и функциональных веб-приложений с красивым дизайном.</p>
+                </div>
+                <h3><i class="fas fa-star"></i> Навыки</h3>
+                <div class="skills">
+                    <span class="skill-tag">HTML/CSS</span>
+                    <span class="skill-tag">Basic Python</span>
+                    <span class="skill-tag">AI</span>
+                    <span class="skill-tag">Windows/Linux Network Administration</span>
+                    <span class="skill-tag">Cisco/Eltex</span>
+                    <span class="skill-tag">Basic SQL</span>
+                    <span class="skill-tag">Ren'Py</span>
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/KedOFF" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+
+            <div class="about-card">
+                <h2><i class="fas fa-info-circle"></i> О портале</h2>
+                <div class="about-content">
+                    <p>Этот сайт служит центральным хабом для моих проектов. Здесь вы можете найти и опробовать различные инструменты и приложения, которые я создал.</p>
+                    <p>Все проекты доступны бесплатно и с открытым исходным кодом. Если у вас есть предложения или вы нашли ошибку, пожалуйста, свяжитесь со мной.</p>
+                </div>
+                <h3><i class="fas fa-road"></i> Планы на будущее</h3>
+                <div class="skills">
+                    <span class="skill-tag">Finish a RPG addon for Ren'Py</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="projects-section">
+            <h2 class="section-title"><i class="fas fa-project-diagram"></i> Мои проекты</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-img">
+                        <i class="fab fa-osu"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Osu! CPS Test</h3>
+                        <p class="project-desc">Тест скорости кликов в секунду (CPS) для игроков Osu!. Измерьте свою скорость и сравните с другими игроками.</p>
+                        <a href="/osu-cps-test" class="project-btn">Открыть проект</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-img" style="background: linear-gradient(135deg, #4A90E2 0%, #2E5FAA 100%);">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Скоро будет</h3>
+                        <p class="project-desc">Здесь скоро появится новый интересный проект. Следите за обновлениями!</p>
+                        <a href="#" class="project-btn">Скоро...</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-img" style="background: linear-gradient(135deg, #50C878 0%, #2E8B57 100%);">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Новая идея</h3>
+                        <p class="project-desc">У меня есть много идей для новых проектов. Следующий будет еще интереснее!</p>
+                        <a href="#" class="project-btn">Скоро...</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2025 KedOFF Projects. Все права наверное кем-то защищены.</p>
+            <p>Спасибо GitHub Pages за бесплатный домен.</p>
+        </footer>
+    </div>
+
+    <div class="notification" id="notification">
+        Добро пожаловать на мой портал проектов!
+    </div>
+
+    <script>
+        // Показать уведомление при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
