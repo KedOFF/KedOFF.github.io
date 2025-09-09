@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Osu! CPS Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Osu! CPS Test</h1>
+            <p class="subtitle">Test your taps per second and BPM consistency!</p>
+            <a href="https://kedoff.github.io/" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Hub
+            </a>
+        </header>
+        <div class="main-content">
+            <div class="panel control-panel">
+                <div class="counter">
+                    <div id="counter" class="idle-animation">idle</div>
+                    <div id="cps-counter" class="cps-indicator">0 cps</div>
+                </div>
+
+                <div class="controls">
+                    <button id="start-button" class="btn btn-primary">Start</button>
+                    <button id="clear-button" class="btn btn-secondary">Clear</button>
+                </div>
+
+                <div class="settings">
+                    <div class="setting-group">
+                        <span class="setting-label">Mode</span>
+                        <label class="switch">
+                            <input id="mode-switch" type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                        <span id="mode-label">Timer Mode</span>
+                    </div>
+
+                    <div class="setting-group" id="timer-set">
+                        <span class="setting-label">Time (seconds)</span>
+                        <div class="input-group">
+                            <input id="time-control" type="number" min="1" max="3600" class="number-input" value="5">
+                        </div>
+                    </div>
+
+                    <div class="setting-group" id="clicks-set">
+                        <span class="setting-label">Clicks</span>
+                        <div class="input-group">
+                            <input id="clicks-control" type="number" min="1" max="9999" class="number-input" value="20">
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <span class="setting-label">Key Bindings</span>
+                        <div class="key-binds">
+                            <div id="key1" class="key-btn" title="Click to rebind">Z</div>
+                            <div id="key2" class="key-btn" title="Click to rebind">X</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel stats-panel">
+                <div class="stat-section">
+                    <h3 class="stat-title">RESULT</h3>
+                    <div class="stat-item">
+                        <span class="stat-label">Score</span>
+                        <span id="score" class="stat-value">0 clicks</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Time</span>
+                        <span id="time" class="stat-value">0 sec</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Frequency</span>
+                        <span id="freq" class="stat-value">0 cps</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Osu! Level</span>
+                        <span id="level" class="stat-value">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Stream BPM</span>
+                        <span id="bpm" class="stat-value">0 bpm</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Unstable Rate</span>
+                        <span id="ur" class="stat-value">0 ms</span>
+                    </div>
+                </div>
+
+                <div class="stat-section">
+                    <h3 class="stat-title">TOTAL</h3>
+                    <div class="stat-item">
+                        <span class="stat-label">Max CPS</span>
+                        <span id="max" class="stat-value">0 cps</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Min CPS</span>
+                        <span id="min" class="stat-value">0 cps</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Avg CPS</span>
+                        <span id="avg" class="stat-value">0 cps</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3 class="stat-title">BPM Analysis</h3>
+            <div class="chart-container">
+                <canvas id="bpmChart"></canvas>
+            </div>
+            <div class="chart-controls">
+                <button class="chart-btn active" data-chart="bpm">BPM</button>
+                <button class="chart-btn" data-chart="interval">Intervals</button>
+                <button class="chart-btn" data-chart="deviation">Deviation</button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3 class="stat-title">Osu! Player Skill Reference (don't take this seriously, it's very subjective and made just for fun) </h3>
+            <table class="reference-table">
+                <thead>
+                    <tr>
+                        <th>CPS Range</th>
+                        <th>Player Rank</th>
+                        <th>Typical Player Level</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody id="reference-body">
+                    <tr>
+                        <td>0 - 5</td>
+                        <td><span class="rank-badge rank-6">F</span> Beginner</td>
+                        <td>1,000,000+</td>
+                        <td>Just starting out, learning basics</td>
+                    </tr>
+                    <tr>
+                        <td>5 - 7</td>
+                        <td><span class="rank-badge rank-5">E</span> Novice</td>
+                        <td>500,000 - 1,000,000</td>
+                        <td>Can complete easier maps, improving fundamentals</td>
+                    </tr>
+                    <tr>
+                        <td>7 - 9</td>
+                        <td><span class="rank-badge rank-4">D</span> Average</td>
+                        <td>200,000 - 500,000 </td>
+                        <td>Comfortable with moderate tempo maps</td>
+                    </tr>
+                    <tr>
+                        <td>9 - 11</td>
+                        <td><span class="rank-badge rank-3">C</span> Intermediate</td>
+                        <td>100,000 - 200,000</td>
+                        <td>Can handle faster patterns with consistency</td>
+                    </tr>
+                    <tr>
+                        <td>11 - 13</td>
+                        <td><span class="rank-badge rank-2">B</span> Skilled</td>
+                        <td>50,000 - 100,000</td>
+                        <td>Good speed, can play challenging maps</td>
+                    </tr>
+                    <tr>
+                        <td>13 - 15</td>
+                        <td><span class="rank-badge rank-1">A</span> Advanced</td>
+                        <td>10,000 - 50,000</td>
+                        <td>High speed, expert-level maps</td>
+                    </tr>
+                    <tr>
+                        <td>15 - 17</td>
+                        <td><span class="rank-badge" style="background:linear-gradient(135deg, #ff66aa, #a366ff); color:#fff">S</span> Expert</td>
+                        <td>1,000 - 10,000</td>
+                        <td>Exceptional speed and precision, top-tier player</td>
+                    </tr>
+                    <tr>
+                        <td>17+</td>
+                        <td><span class="rank-badge" style="background:linear-gradient(135deg, #ffcc00, #ff66aa); color:#000">SS</span> Elite</td>
+                        <td>Top 1,000</td>
+                        <td>Extreme speed, tournament-level performance</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="history-panel">
+            <h3 class="stat-title">Last 10 Results</h3>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Score</th>
+                        <th>Time</th>
+                        <th>CPS</th>
+                        <th>BPM</th>
+                        <th>UR</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="history-body"></tbody>
+            </table>
+        </div>
+
+        <footer>
+            <div class="footer-links">
+                <a href="https://osu.ppy.sh/community/forums/topics/1051329?n=1" class="footer-link" target="_blank">
+                    <svg class="footer-link-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"></path>
+                    </svg>
+                    Original Post
+                </a>
+                
+                <span class="footer-separator">|</span>
+                
+                <a href="https://osu.ppy.sh/users/9332747" class="footer-link" target="_blank">
+                    <svg class="footer-link-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"></path>
+                    </svg>
+                    My Osu! Profile
+                </a>
+                
+                <span class="footer-separator">|</span>
+                
+                <a href="https://osu.ppy.sh/community/forums/topics/2127599?n=1" class="footer-link">
+                    <svg class="footer-link-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z"></path>
+                    </svg>
+                    My Post
+                </a>
+            </div>
+            
+            <div class="footer-credits">
+                <p>Based on original work by <a href="https://vk.com/metriss" class="footer-link" target="_blank" style="display: inline; color: var(--osu-pink);">metriss</a></p>
+                <p>BPM calculation and graph by <a href="https://github.com/ckrisirkc/osuStreamSpeed.js" class="footer-link" target="_blank" style="display: inline; color: var(--osu-pink);">ckrisirkc</a></p>
+            </div>
+            
+            <p>Made for Osu! players | CPS Test v2.8</p>
+        </footer>
+    </div>
+
+    <div class="notification" id="notification">
+        Key binding updated successfully!
+    </div>
+
+    <!-- connect Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
