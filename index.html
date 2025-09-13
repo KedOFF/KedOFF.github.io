@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- saved from url=(0025)https://kedoff.github.io/ -->
+<html lang="en" class="">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KedOFF Projects Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,6 +20,8 @@
             --osu-pink: #ff66aa;
             --osu-dark-pink: #e64d95;
             --osu-purple: #a366ff;
+            --renpy-blue: #233554;
+            --renpy-accent: #64ffda;
         }
 
         * {
@@ -194,7 +197,6 @@
 
         .project-img {
             height: 180px;
-            background: linear-gradient(135deg, var(--osu-dark-pink) 0%, var(--osu-purple) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -232,6 +234,18 @@
         .project-btn:hover {
             background: var(--osu-dark-pink);
             transform: translateY(-2px);
+        }
+
+        /* Специальный стиль для кнопки Ren'Py */
+        .renpy-btn {
+            background: var(--renpy-blue);
+            border: 1px solid var(--renpy-accent);
+            color: var(--renpy-accent);
+        }
+
+        .renpy-btn:hover {
+            background: rgba(100, 255, 218, 0.1);
+            color: var(--white);
         }
 
         .back-btn {
@@ -328,7 +342,7 @@
                 </div>
                 <h3><i class="fas fa-road"></i> Future Plans</h3>
                 <div class="skills">
-                    <span class="skill-tag">Finish a RPG addon for Ren'Py</span>
+                    <span class="skill-tag">Finish Ren'Py RPG Framework</span>
                 </div>
             </div>
         </section>
@@ -336,39 +350,28 @@
         <section class="projects-section">
             <h2 class="section-title"><i class="fas fa-project-diagram"></i> My Projects</h2>
             <div class="projects-grid">
+                <!-- Ren'Py RPG Framework Card -->
                 <div class="project-card">
-                    <div class="project-img">
+                    <div class="project-img" style="background: linear-gradient(135deg, var(--dark-blue) 0%, var(--navy) 100%);">
+                        <i class="fas fa-dragon" style="color: var(--accent);"></i>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Ren'Py RPG Framework</h3>
+                        <p class="project-desc">A powerful modular system for creating turn-based RPGs on the Ren'Py engine.</p>
+                        <a href="https://kedoff.github.io/renpy_rpg_framework/framework.html" class="project-btn renpy-btn">Open Project</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-img" style="background: linear-gradient(135deg, var(--osu-dark-pink) 0%, var(--osu-purple) 100%);">
                         <i class="fab fa-osu"></i>
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">Osu! CPS Test</h3>
                         <p class="project-desc">Clicks per second (CPS) and BPM consistency test for Osu! players. Measure your speed and compare with other players.</p>
-                        <a href="osu_cps_test/index.html" class="project-btn">Open Project</a>
+                        <a href="https://kedoff.github.io/osu_cps_test/index.html" class="project-btn">Open Project</a>
                     </div>
                 </div>
-
-                <div class="project-card">
-                    <div class="project-img" style="background: linear-gradient(135deg, #4A90E2 0%, #2E5FAA 100%);">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Coming Soon</h3>
-                        <p class="project-desc">A new interesting project will appear here soon.</p>
-                        <a href="#" class="project-btn">Coming soon...</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-img" style="background: linear-gradient(135deg, #50C878 0%, #2E8B57 100%);">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">New Idea</h3>
-                        <p class="project-desc">I have many ideas for new projects. The next one will be even more interesting!</p>
-                        <a href="#" class="project-btn">Coming soon...</a>
-                    </div>
-                </div>
-            </div>
         </section>
 
         <footer>
@@ -394,7 +397,3 @@
     </script>
 </body>
 </html>
-
-
-
-

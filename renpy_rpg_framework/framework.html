@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ren'Py RPG Framework | KedOFF.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <style>
+        :root {
+            --dark-blue: #0a192f;
+            --navy: #112240;
+            --light-navy: #233554;
+            --dark-slate: #495670;
+            --slate: #8892b0;
+            --light-slate: #a8b2d1;
+            --lightest-slate: #e6f1ff;
+            --accent: #64ffda;
+            --accent-tint: rgba(100, 255, 218, 0.1);
+            --white: #e6f1ff;
+            --font-primary: 'Montserrat', sans-serif;
+            --font-secondary: 'Raleway', sans-serif;
+            --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark-blue);
+            color: var(--lightest-slate);
+            font-family: var(--font-secondary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--white);
+            font-family: var(--font-primary);
+            font-weight: 700;
+        }
+        
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--navy) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--accent-tint);
+            filter: blur(100px);
+            top: -150px;
+            left: -150px;
+            z-index: 0;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: var(--accent-tint);
+            filter: blur(100px);
+            bottom: -150px;
+            right: -150px;
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+        
+        .back-button {
+            position: fixed;
+            left: 30px;
+            top: 30px;
+            background: var(--accent-tint);
+            color: var(--accent);
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+            z-index: 100;
+            border: 1px solid var(--accent);
+            font-family: var(--font-primary);
+            font-weight: 500;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3);
+            background: rgba(100, 255, 218, 0.2);
+        }
+        
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--white) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--light-slate);
+        }
+        
+        .tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+        
+        .tag {
+            background: var(--light-navy);
+            color: var(--accent);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid var(--accent);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+        
+        .tag:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--light-slate);
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+        
+        /* ===== SECTIONS ===== */
+        section {
+            padding: 6rem 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--light-slate);
+        }
+        
+        /* ===== ABOUT ===== */
+        .about-content {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--light-navy) 100%);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 3rem;
+            border: 1px solid var(--dark-slate);
+        }
+        
+        .about-content p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--light-navy) 100%);
+            padding: 2.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            border: 1px solid var(--dark-slate);
+            text-align: center;
+            /* Фиксированная высота для одинаковых блоков */
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature i {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            background: var(--accent-tint);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            text-align: center;
+        }
+        
+        .feature h3 {
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+        }
+        
+        /* ===== GALLERY ===== */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 2rem;
+        }
+        
+        .gallery-item {
+            height: 250px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            border: 1px solid var(--dark-slate);
+            cursor: pointer;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .gallery-item.video {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--light-navy) 100%);
+            color: var(--accent);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .gallery-item.video:hover {
+            transform: scale(1.03);
+        }
+        
+        .gallery-item.video i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        /* ===== VIDEO MODAL ===== */
+        .video-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .video-modal-content {
+            position: relative;
+            width: 80%;
+            max-width: 900px;
+        }
+        
+        .video-modal video {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(100, 255, 218, 0.3);
+        }
+        
+        .close-video {
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            color: var(--accent);
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close-video:hover {
+            color: var(--white);
+            transform: scale(1.1);
+        }
+        
+        /* ===== ARCHITECTURE ===== */
+        .architecture {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--light-navy) 100%);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--dark-slate);
+        }
+        
+        .module {
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 10px;
+            background: var(--dark-blue);
+            border-left: 4px solid var(--accent);
+            transition: var(--transition);
+        }
+        
+        .module:hover {
+            transform: translateX(5px);
+        }
+        
+        .module h4 {
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+        
+        .module p {
+            color: var(--lightest-slate);
+        }
+        
+        /* ===== STATUS ===== */
+        .status {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--accent-tint);
+            border-radius: 10px;
+            margin: 2rem 0;
+            border: 1px solid var(--accent);
+        }
+        
+        .status h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* ===== CODE EXAMPLES ===== */
+        .code-examples {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .code-example {
+            background: var(--light-navy);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+        }
+        
+        .code-example h4 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            text-align: left;
+        }
+        
+        .code-example p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+        
+        .code-example-code {
+            background: #1e1e1e;
+            padding: 1.5rem;
+            overflow-x: auto;
+            border-radius: 8px;
+            margin: 0 auto 1.5rem;
+            text-align: left;
+        }
+        
+        .code-example-code pre {
+            margin: 0;
+            text-align: left;
+        }
+        
+        .code-example-code code {
+            text-align: left;
+            padding: 0;
+        }
+        
+        .hljs {
+            background: #1e1e1e !important;
+            padding: 1rem !important;
+            border-radius: 8px;
+        }
+        
+        .implementation-details {
+            background: var(--accent-tint);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--accent);
+            text-align: left;
+        }
+        
+        .implementation-details h5 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        /* ===== MODAL FOR IMAGES ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(100, 255, 218, 0.3);
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: var(--accent);
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .close:hover {
+            color: var(--white);
+            transform: scale(1.1);
+        }
+        
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--dark-blue) 100%);
+            color: var(--light-slate);
+            text-align: center;
+            padding: 4rem 0 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--dark-slate);
+        }
+        
+        footer p {
+            margin-bottom: 1rem;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 968px) {
+            .code-example {
+                grid-template-columns: 1fr;
+            }
+            
+            .code-example-image {
+                order: -1;
+                padding: 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .back-button {
+                left: 20px;
+                top: 20px;
+                padding: 10px 15px;
+            }
+            
+            .features, .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature {
+                min-height: auto;
+            }
+            
+            .about-content, .architecture {
+                padding: 2rem;
+            }
+            
+            section {
+                padding: 4rem 0;
+            }
+            
+            .modal-content {
+                max-width: 95%;
+            }
+            
+            .video-modal-content {
+                width: 95%;
+            }
+            
+            .close-video {
+                top: -30px;
+                right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Модальное окно для увеличения изображений -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <!-- Модальное окно для видео -->
+    <div id="videoModal" class="video-modal">
+        <div class="video-modal-content">
+            <span class="close-video">&times;</span>
+            <video controls id="modalVideo">
+                <source src="demonstration.mp4" type="video/mp4">
+                Ваш браузер не поддерживает видео тег.
+            </video>
+        </div>
+    </div>
+
+    <header>
+        <a href="https://kedoff.github.io" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            <span>Назад в хаб</span>
+        </a>
+        <div class="header-content">
+            <h1>Ren'Py RPG Framework</h1>
+            <p class="subtitle">Мощная модульная система для создания пошаговых RPG на движке Ren'Py</p>
+            <div class="tags">
+                <span class="tag">Ren'Py</span>
+                <span class="tag">Python</span>
+                <span class="tag">RPG</span>
+                <span class="tag">Игровой движок</span>
+                <span class="tag">Модульная архитектура</span>
+            </div>
+        </div>
+        <div class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+    
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>О проекте</h2>
+            </div>
+            
+            <div class="status">
+                <h3>Проект в активной разработке!!!</h3>
+            </div>
+            
+            <div class="about-content">
+                <p><strong>Ren'Py RPG Framework</strong> - это мощная модульная системы для создания пошаговых ролевых игр, построенная на базе визуальной новелловой системы Ren'Py. Проект демонстрирует глубокую интеграцию Python с Ren'Py и реализацию сложной игровой механики в рамках движка, изначально предназначенного для визуальных новелл.</p>
+                
+                <p>Основная философия проекта - <strong>"Конструктор, а не код"</strong>. Система позволяет создавать контент через декларативное описание, а не программирование. Как Lego - вы берете готовые блоки (эффекты, навыки, диалоги) и собираете сложные сценарии.</p>
+                
+                <p>Фреймворк включают в себя систему персонажей, инвентарь, экипировку, боевую систему с эффектами и статусами, скриптовый движок для диалогов и событий, а также систему прокачки и развития персонажа.</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <h3>Система скриптов</h3>
+                    <p>Мощная кастомная система скриптов, условий и триггеров, позволяющая полноценно манипулировать ходом боя, от банального проигрывания диалога, до изменения хар-тик, применения эффектов и тд.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-code"></i>
+                    <h3>Простая архитектура</h3>
+                    <p>Фреймворк не требует никаких познаний в программировании, достаточно скопировать шаблон, поменять значения, и получить результат.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-gamepad"></i>
+                    <h3>RPG механики</h3>
+                    <p>Легко кастомизируемые и добавляемые системы: Типов и атрибутов урона, сопротивлений, уязвимостей и неуязвимостей, физических и магических критических попаданий, статус эффекты, баффы и дебаффы, и полноценная 1vs1 боевая система.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="media">
+        <div class="container">
+            <div class="section-title">
+                <h2>Скриншоты и демонстрация</h2>
+                <p>Визуальные элементы и геймплей проекта</p>
+            </div>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="battle.png" alt="Боевая система">
+                </div>
+                <div class="gallery-item">
+                    <img src="inventory.png" alt="Инвентарь">
+                </div>
+                <div class="gallery-item video" id="videoDemo">
+                    <i class="fas fa-play"></i>
+                    <span>Видео-демонстрация геймплея</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="implementation">
+        <div class="container">
+            <div class="section-title">
+                <h2>Примеры реализации</h2>
+                <p>Конкретные примеры кода из проекта с пояснениями</p>
+            </div>
+            
+            <div class="code-examples">
+                <div class="code-example">
+                    <h4>Создание эффекта яда</h4>
+                    <p>Реализация статусного эффекта "Яд", который наносит периодический урон в течение нескольких ходов.</p>
+                    <div class="code-example-code">
+                        <pre><code class="python"># Создание эффекта яда
+poison_effect = DamageOverTimeEffect(
+    name="Яд",
+    duration=3,
+    icon="icons/poison.png",
+    damage=5,
+    damage_type="earth",
+    description="Наносит 5 урона землей каждый ход",
+    target="enemy",
+    animation="poison_anim",
+    sound="audio/poison.mp3"
+)
+
+# Регистрация эффекта в системе
+register_effect(poison_effect)</code></pre>
+                    </div>
+                    <div class="implementation-details">
+                        <h5>Как это работает:</h5>
+                        <p>Эффект автоматически наносит урон в конце каждого хода цели. Система сама обрабатывает длительность, визуальные эффекты и звуки.</p>
+                    </div>
+                </div>
+                
+                <div class="code-example">
+                    <h4>Реализация навыка "Огненный шар"</h4>
+                    <p>Создание сложного заклинания с уроном, визуальными эффектами и перезарядкой.</p>
+                    <div class="code-example-code">
+                        <pre><code class="python"># Создание навыка "Огненный шар"
+fireball = Skill(
+    name="Огненный шар",
+    min_damage=20,
+    max_damage=30,
+    damage_type="fire",
+    cost=15,
+    animation="fireball_anim",
+    sound="audio/fireball.mp3",
+    voice_sound="audio/voice/fire.mp3",
+    icon="images/icons/fireball.png",
+    description="Выпускает сгусток огненной энергии",
+    action_description="запускает сгусток огненной энергии!",
+    player_phrase="Превратись в пепел!",
+    cooldown=4
+)
+
+# Регистрация навыка
+register_skill(fireball)</code></pre>
+                    </div>
+                    <div class="implementation-details">
+                        <h5>Как это работает:</h5>
+                        <p>Навык автоматически интегрируется в боевую систему, включая расчет урона, потребление маны, визуальные эффекты и систему перезарядки.</p>
+                    </div>
+                </div>
+                
+                <div class="code-example">
+                    <h4>Создание скрипта для диалога при низком HP</h4>
+                    <p>Реализация реактивного диалога, который срабатывает при определенных условиях в бою.</p>
+                    <div class="code-example-code">
+                        <pre><code class="python"># Создание скрипта для реакции на низкое HP врага
+script_engine.register_script(
+    script_id="goblin_low_hp",
+    trigger="enemy_hp_low",
+    actions=[{
+        "action": "dialogue",
+        "lines": [
+            ("Гоблин", "Ай! Моя спина! Ты пожалеешь об этом!"),
+            ("Эмили", "Закрой свою грязную пасть, тварь!")
+        ]
+    }],
+    conditions={"hp_percent_less": 50},
+    priority=5
+)</code></pre>
+                    </div>
+                    <div class="implementation-details">
+                        <h5>Как это работает:</h5>
+                        <p>Скрипт автоматически срабатывает, когда здоровье врага падает ниже 50%. Система сама проверяет условия и запускает диалог.</p>
+                    </div>
+                </div>
+                
+                <div class="code-example">
+                    <h4>Создание сложного предмета с несколькими эффектами</h4>
+                    <p>Реализация предмета, который сочетает в себе несколько различных эффектов при использовании.</p>
+                    <div class="code-example-code">
+                        <pre><code class="python"># Создание сложного зелья с несколькими эффектами
+combat_stimulant = Consumable(
+    name="Боевой стимулятор",
+    icon="images/items/combat_stimulant.png",
+    description="Добавляет адреналин и накладывает яд на оружие",
+    value=60,
+    effects=[
+        AddAdrenalineEffect(15),
+        ApplyStatusEffect(weak_poison_effect, "enemy")
+    ]
+)
+
+# Добавление в базу данных предметов
+item_db["Боевой стимулятор"] = combat_stimulant</code></pre>
+                    </div>
+                    <div class="implementation-details">
+                        <h5>Как это работает:</h5>
+                        <p>При использовании предмета система автоматически применяет все эффекты по очереди. Каждый эффект имеет свою логику и цель применения.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>© 2025 KedOFF | Ren'Py RPG Framework</p>
+            <p>Проект находится в активной разработке.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Плавная прокрутка к секциям
+        document.querySelector('.scroll-down').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#about').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+        
+        // Анимация появления элементов при прокрутке
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const elementsToAnimate = document.querySelectorAll('.feature, .gallery-item, .code-example');
+            elementsToAnimate.forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Инициализация модального окна для изображений
+            initImageModal();
+            
+            // Инициализация модального окна для видео
+            initVideoModal();
+        });
+        
+        // Функция для модального окна изображений
+        function initImageModal() {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+            const closeBtn = document.getElementsByClassName("close")[0];
+            
+            // Добавляем обработчики клика на все изображения в галерее
+            const galleryImages = document.querySelectorAll('.gallery-item:not(.video) img');
+            galleryImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    modal.style.display = "block";
+                    modalImg.src = this.src;
+                    modalImg.alt = this.alt;
+                });
+            });
+            
+            // Закрытие модального окна
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = "none";
+            });
+            
+            // Закрытие при клике вне изображения
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+            
+            // Закрытие по клавише Esc
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "Escape" && modal.style.display === "block") {
+                    modal.style.display = "none";
+                }
+            });
+        }
+        
+        // Функция для модального окна видео
+        function initVideoModal() {
+            const videoModal = document.getElementById("videoModal");
+            const modalVideo = document.getElementById("modalVideo");
+            const closeBtn = document.getElementsByClassName("close-video")[0];
+            const videoDemo = document.getElementById("videoDemo");
+            
+            // Открытие модального окна при клике на видео-элемент
+            videoDemo.addEventListener('click', function() {
+                videoModal.style.display = "flex";
+                modalVideo.play();
+            });
+            
+            // Закрытие модального окна
+            closeBtn.addEventListener('click', function() {
+                videoModal.style.display = "none";
+                modalVideo.pause();
+            });
+            
+            // Закрытие при клике вне видео
+            videoModal.addEventListener('click', function(e) {
+                if (e.target === videoModal) {
+                    videoModal.style.display = "none";
+                    modalVideo.pause();
+                }
+            });
+            
+            // Закрытие по клавише Esc
+            document.addEventListener('keydown', function(e) {
+                if (e.key === "Escape" && videoModal.style.display === "flex") {
+                    videoModal.style.display = "none";
+                    modalVideo.pause();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
