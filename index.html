@@ -1,740 +1,202 @@
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KedOFF Projects Hub</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --dark-blue: #0a192f;
-            --navy: #112240;
-            --light-navy: #233554;
-            --lightest-navy: #303C55;
-            --slate: #8892b0;
-            --light-slate: #a8b2d1;
-            --lightest-slate: #ccd6f6;
-            --white: #e6f1ff;
-            --accent: #64ffda;
-            --osu-pink: #ff66aa;
-            --osu-dark-pink: #e64d95;
-            --osu-purple: #a366ff;
-            --renpy-blue: #233554;
-            --renpy-accent: #64ffda;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KedOFF Projects Hub</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--dark-blue:#050f1f;--navy:#0a192f;--light-navy:#233554;--slate:#8892b0;--light-slate:#a8b2d1;--lightest-slate:#ccd6f6;--white:#e6f1ff;--accent:#64ffda;--osu-pink:#ff66aa;--osu-dark-pink:#e64d95;--osu-purple:#a366ff;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+body{background:linear-gradient(135deg,var(--dark-blue)0%,var(--navy)100%);color:var(--light-slate);min-height:100vh;display:flex;flex-direction:column;padding:20px;line-height:1.6;overflow-x:hidden;}
+#particles-js,.interactive-bg{position:fixed;width:100%;height:100%;top:0;left:0;z-index:-1;}
+.interactive-bg{z-index:-2;background:radial-gradient(circle at 50% 50%,rgba(37,65,111,.2)0%,transparent 50%);pointer-events:none;}
+.container{max-width:1200px;margin:0 auto;width:100%;position:relative;z-index:1;}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 0;margin-bottom:30px;border-bottom:1px solid rgba(100,255,218,.1);transition:all .4s ease;}
+header.scrolled{background:rgba(10,25,47,.9);backdrop-filter:blur(10px);padding:15px 20px;margin:-20px -20px 30px -20px;border-bottom:1px solid rgba(100,255,218,.2);box-shadow:0 5px 20px rgba(0,0,0,.2);}
+.logo{font-size:1.8rem;font-weight:bold;color:var(--white);display:flex;align-items:center;transition:all 0.3s ease;position:relative;}
+.logo:hover{transform:scale(1.05) rotate(-2deg);}
+.logo i{color:var(--accent);margin-right:10px;transition:transform 0.5s ease;}
+.logo:hover i{transform:rotate(360deg);}
+/* НОВЫЙ СТИЛЬ ДЛЯ ТЕКСТА - ПРОСТО БЕЛЫЙ БЕЗ ЭФФЕКТОВ */
+.logo-text {
+    color: var(--white);
+}
+nav ul{display:flex;list-style:none;gap:30px;}
+nav a{color:var(--light-slate);text-decoration:none;font-weight:500;transition:all .3s ease;padding:5px 10px;border-radius:4px;position:relative;}
+nav a:after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:var(--accent);transition:width .3s ease;}
+nav a:hover{color:var(--accent);}
+nav a:hover:after{width:100%;}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:50px;}
+@media (max-width:900px){.hero{grid-template-columns:1fr;}}
+.about-card{background:rgba(17,34,64,.5);border-radius:10px;padding:30px;box-shadow:0 10px 30px rgba(0,0,0,.3);border:2px solid rgba(100,255,218,.15);transition:all .4s ease;opacity:0;transform:translateY(20px);}
+.about-card.visible{opacity:1;transform:translateY(0);}
+.about-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 15px 35px rgba(0,0,0,.4);border:2px solid rgba(100,255,218,.4);}
+.about-card h2{color:var(--white);margin-bottom:20px;font-size:1.8rem;display:flex;align-items:center;}
+.about-card h2 i{color:var(--accent);margin-right:10px;}
+.about-content{margin-bottom:20px;}
+.skills{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}
+.skill-tag{background:rgba(100,255,218,.1);color:var(--accent);padding:5px 15px;border-radius:20px;font-size:.9rem;transition:all .3s ease;cursor:default;opacity:0;transform:translateY(20px);}
+.skill-tag.visible{opacity:1;transform:translateY(0);}
+.skill-tag:hover{background:rgba(100,255,218,.2);transform:translateY(-2px);}
+.social-links{display:flex;gap:15px;margin-top:20px;}
+.social-links a{color:var(--light-slate);font-size:1.5rem;transition:all .3s ease;position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;text-decoration:none;opacity:0;transform:translateY(20px);}
+.social-links a.visible{opacity:1;transform:translateY(0);}
+.social-links a:before{content:'';position:absolute;width:100%;height:100%;border-radius:50%;background:rgba(100,255,218,.1);transform:scale(0);transition:all .3s ease;z-index:-1;}
+.social-links a:hover{color:var(--accent);transform:translateY(-3px);}
+.social-links a:hover:before{transform:scale(1);}
+.projects-section{margin-bottom:50px;}
+.section-title{color:var(--white);margin-bottom:30px;font-size:2rem;display:flex;align-items:center;opacity:0;transform:translateX(-20px);transition:all .5s ease;}
+.section-title.visible{opacity:1;transform:translateX(0);}
+.section-title i{color:var(--accent);margin-right:10px;}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:25px;}
+.project-card{background:rgba(17,34,64,.5);border-radius:10px;overflow:hidden;transition:all .3s ease;box-shadow:0 10px 30px rgba(0,0,0,.3);border:2px solid rgba(100,255,218,.15);opacity:0;transform:translateY(30px);}
+.project-card.visible{opacity:1;transform:translateY(0);}
+.project-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 20px 40px rgba(0,0,0,.4);border:2px solid rgba(100,255,218,.4);}
+.project-img{height:180px;display:flex;align-items:center;justify-content:center;color:white;font-size:3rem;position:relative;overflow:hidden;}
+.project-img:after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to bottom,rgba(10,25,47,.2),rgba(10,25,47,.8));opacity:0;transition:opacity .3s ease;}
+.project-card:hover .project-img:after{opacity:1;}
+.project-content{padding:20px;}
+.project-title{color:var(--white);margin-bottom:10px;font-size:1.3rem;transition:color .3s ease;}
+.project-card:hover .project-title{color:var(--accent);}
+.project-desc{margin-bottom:20px;font-size:.95rem;color:var(--slate);}
+.project-btn{display:inline-block;padding:10px 20px;background:var(--osu-pink);color:white;text-decoration:none;border-radius:5px;font-weight:500;transition:all .3s ease;position:relative;overflow:hidden;opacity:0;transform:translateY(20px);}
+.project-btn.visible{opacity:1;transform:translateY(0);}
+.project-btn:before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:all .5s ease;}
+.project-btn:hover{background:var(--osu-dark-pink);transform:translateY(-2px);box-shadow:0 5px 15px rgba(230,77,149,.4);}
+.project-btn:hover:before{left:100%;}
+.renpy-btn{background:var(--navy);border:2px solid var(--accent);color:var(--accent);}
+.renpy-btn:hover{background:rgba(100,255,218,.1);color:var(--white);box-shadow:0 5px 15px rgba(100,255,218,.3);}
+.osu-btn{background:linear-gradient(135deg,var(--osu-dark-pink)0%,var(--osu-purple)100%);border:none;color:var(--white);}
+.osu-btn:hover{background:linear-gradient(135deg,var(--osu-purple)0%,var(--osu-dark-pink)100%);transform:translateY(-2px);box-shadow:0 5px 15px rgba(163,102,255,.4);}
+footer{text-align:center;margin-top:auto;padding:30px 0;color:var(--slate);font-size:.9rem;border-top:1px solid rgba(100,255,218,.1);opacity:0;transform:translateY(20px);transition:all .5s ease;}
+footer.visible{opacity:1;transform:translateY(0);}
+@keyframes typing{from{width:0}to{width:100%}}
+@keyframes blink-caret{from,to{border-color:transparent}50%{border-color:var(--accent)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.pulse{animation:pulse 2s infinite;}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.fade-in-up{animation:fadeInUp .6s ease forwards;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.glow{text-shadow:0 0 10px rgba(100,255,218,.5);}
+.particle-interaction{position:fixed;width:100px;height:100px;border-radius:50%;background:rgba(100,255,218,.1);transform:translate(-50%,-50%);z-index:-1;pointer-events:none;opacity:0;transition:opacity .3s,transform .3s;}
+.about-title-text{overflow:hidden;border-right:.15em solid var(--accent);white-space:nowrap;margin:0;letter-spacing:.15em;display:inline-block;width:100%;animation:typing 3.5s steps(40,end),blink-caret .75s step-end infinite;box-sizing:border-box;}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+/* Новая анимация для карточек при наведении */
+@keyframes cardHover {
+  0% { box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+  50% { box-shadow: 0 15px 35px rgba(100,255,218,.2); }
+  100% { box-shadow: 0 20px 40px rgba(100,255,218,.3); }
+}
 
-        body {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--navy) 100%);
-            color: var(--light-slate);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            margin-bottom: 30px;
-            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
-            transition: all 0.4s ease;
-        }
-
-        header.scrolled {
-            background: rgba(10, 25, 47, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 15px 20px;
-            margin: -20px -20px 30px -20px;
-            border-bottom: 1px solid rgba(100, 255, 218, 0.2);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .logo i {
-            color: var(--accent);
-            margin-right: 10px;
-            transition: transform 0.5s ease;
-        }
-
-        .logo:hover i {
-            transform: rotate(15deg);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        nav a {
-            color: var(--light-slate);
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 5px 10px;
-            border-radius: 4px;
-            position: relative;
-        }
-
-        nav a:after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        nav a:hover {
-            color: var(--accent);
-        }
-
-        nav a:hover:after {
-            width: 100%;
-        }
-
-        .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 50px;
-        }
-
-        @media (max-width: 900px) {
-            .hero {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .about-card {
-            background: rgba(17, 34, 64, 0.5);
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(100, 255, 218, 0.1);
-            transition: all 0.4s ease;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .about-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .about-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(100, 255, 218, 0.3);
-        }
-
-        .about-card h2 {
-            color: var(--white);
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .about-card h2 i {
-            color: var(--accent);
-            margin-right: 10px;
-        }
-
-        .about-content {
-            margin-bottom: 20px;
-        }
-
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .skill-tag {
-            background: rgba(100, 255, 218, 0.1);
-            color: var(--accent);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            cursor: default;
-        }
-
-        .skill-tag:hover {
-            background: rgba(100, 255, 218, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-links a {
-            color: var(--light-slate);
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-
-        .social-links a:before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: rgba(100, 255, 218, 0.1);
-            transform: scale(0);
-            transition: all 0.3s ease;
-            z-index: -1;
-        }
-
-        .social-links a:hover {
-            color: var(--accent);
-            transform: translateY(-3px);
-        }
-
-        .social-links a:hover:before {
-            transform: scale(1);
-        }
-
-        .projects-section {
-            margin-bottom: 50px;
-        }
-
-        .section-title {
-            color: var(--white);
-            margin-bottom: 30px;
-            font-size: 2rem;
-            display: flex;
-            align-items: center;
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: all 0.5s ease;
-        }
-
-        .section-title.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .section-title i {
-            color: var(--accent);
-            margin-right: 10px;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .project-card {
-            background: rgba(17, 34, 64, 0.5);
-            border-radius: 10px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(100, 255, 218, 0.1);
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .project-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(100, 255, 218, 0.3);
-        }
-
-        .project-img {
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-img:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(10, 25, 47, 0.2), rgba(10, 25, 47, 0.8));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .project-card:hover .project-img:after {
-            opacity: 1;
-        }
-
-        .project-content {
-            padding: 20px;
-        }
-
-        .project-title {
-            color: var(--white);
-            margin-bottom: 10px;
-            font-size: 1.3rem;
-            transition: color 0.3s ease;
-        }
-
-        .project-card:hover .project-title {
-            color: var(--accent);
-        }
-
-        .project-desc {
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            color: var(--slate);
-        }
-
-        .project-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: var(--osu-pink);
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: all 0.5s ease;
-        }
-
-        .project-btn:hover {
-            background: var(--osu-dark-pink);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(230, 77, 149, 0.4);
-        }
-
-        .project-btn:hover:before {
-            left: 100%;
-        }
-
-        /* Специальный стиль для кнопки Ren'Py */
-        .renpy-btn {
-            background: var(--renpy-blue);
-            border: 1px solid var(--renpy-accent);
-            color: var(--renpy-accent);
-        }
-
-        .renpy-btn:hover {
-            background: rgba(100, 255, 218, 0.1);
-            color: var(--white);
-            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 500;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .back-btn i {
-            margin-right: 8px;
-        }
-
-        .back-btn:hover {
-            color: var(--white);
-            transform: translateX(-5px);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: auto;
-            padding: 30px 0;
-            color: var(--slate);
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(100, 255, 218, 0.1);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
-        }
-
-        footer.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            background: var(--navy);
-            color: var(--accent);
-            border-left: 4px solid var(--accent);
-            border-radius: 4px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            z-index: 1000;
-        }
-        
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .theme-toggle {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--navy);
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-
-        .theme-toggle:hover {
-            transform: rotate(30deg) scale(1.1);
-            box-shadow: 0 0 15px var(--accent);
-        }
-
-        .cursor-follower {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--accent);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            opacity: 0;
-            transition: all 0.1s ease;
-        }
-
-        .cursor-follower.active {
-            opacity: 0.5;
-            width: 40px;
-            height: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .cursor-follower {
-                display: none;
-            }
-        }
-    </style>
+.about-card:hover {
+  animation: cardHover 0.5s ease forwards;
+}
+</style>
 </head>
 <body>
-    <div id="particles-js"></div>
-    <div class="cursor-follower"></div>
+<div id="particles-js"></div>
+<div class="interactive-bg"></div>
+<div class="container">
+<header id="main-header"><div class="logo"><i class="fas fa-code"></i><span class="logo-text">KedOFF</span></div>
+<nav><ul><li><a href="https://github.com/KedOFF" target="_blank"><i class="fab fa-github"></i> GitHub</a></li></ul></nav></header>
 
-    <div class="container">
-        <header id="main-header">
-            <div class="logo">
-                <i class="fas fa-code"></i>
-                <span>KedOFF</span>
-            </div>
-            <nav>
-                <ul>
-                   <li><a href="#"><i class="fas fa-home"></i> Hub</a></li>
-                </ul>
-            </nav>
-        </header>
+<!-- Остальной код остается без изменений -->
 
-        <section class="hero">
-            <div class="about-card">
-                <h2><i class="fas fa-user"></i> About Me</h2>
-                <div class="about-content">
-                    <p>Hello! I'm a developer and enthusiast who loves creating interesting and useful projects.</p>
-                    <p>My main focus is creating user-friendly and functional applications.</p>
-                </div>
-                <h3><i class="fas fa-star"></i> Skills</h3>
-                <div class="skills">
-                    <span class="skill-tag">HTML/CSS</span>
-                    <span class="skill-tag">Basic Python</span>
-                    <span class="skill-tag">AI</span>
-                    <span class="skill-tag">Windows/Linux Network Administration</span>
-                    <span class="skill-tag">Cisco/Eltex</span>
-                    <span class="skill-tag">Basic SQL</span>
-                    <span class="skill-tag">Ren'Py</span>
-                </div>
-                <div class="social-links">
-                    <a href="https://github.com/KedOFF" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="#"><i class="fab fa-telegram"></i></a>
-                    <a href="#"><i class="fab fa-vk"></i></a>
-                    <a href="#"><i class="fab fa-discord"></i></a>
-                </div>
-            </div>
+<section class="hero">
+<div class="about-card"><h2><i class="fas fa-user"></i> <span class="about-title-text">About Me</span></h2>
+<div class="about-content"><p>Hello! I'm a developer and enthusiast who loves creating interesting and useful projects.</p>
+<p>My main focus is creating user-friendly and functional applications.</p></div>
+<h3><i class="fas fa-star"></i> Skills</h3>
+<div class="skills">
+<span class="skill-tag">HTML/CSS</span><span class="skill-tag">Basic Python</span><span class="skill-tag">AI</span>
+<span class="skill-tag">Windows/Linux Network Administration</span><span class="skill-tag">Cisco/Eltex</span>
+<span class="skill-tag">Basic SQL</span><span class="skill-tag">Ren'Py</span></div>
+<div class="social-links">
+<a href="https://github.com/KedOFF" target="_blank"><i class="fab fa-github"></i></a>
+<a href="#"><i class="fab fa-telegram"></i></a><a href="#"><i class="fab fa-vk"></i></a><a href="#"><i class="fab fa-discord"></i></a></div></div>
 
-            <div class="about-card">
-                <h2><i class="fas fa-info-circle"></i> About the Hub</h2>
-                <div class="about-content">
-                    <p>This site serves as a central hub for my projects. Here you can find and try out various tools and applications I've created.</p>
-                    <p>All projects are available for free and with open source code. If you have suggestions or find a bug, please contact me.</p>
-                </div>
-                <h3><i class="fas fa-road"></i> Future Plans</h3>
-                <div class="skills">
-                    <span class="skill-tag">Finish Ren'Py RPG Framework</span>
-                </div>
-            </div>
-        </section>
+<div class="about-card"><h2><i class="fas fa-info-circle"></i> <span class="about-title-text">About the Hub</span></h2>
+<div class="about-content"><p>This site serves as a central hub for my projects. Here you can find and try out various tools and applications I've created.</p>
+<p>All projects are available for free and with open source code. If you have suggestions or find a bug, please contact me.</p></div>
+<h3><i class="fas fa-road"></i> Future Plans</h3>
+<div class="skills">
+<span class="skill-tag">Finish Ren'Py RPG Framework</span><span class="skill-tag">Add more interactive demos</span>
+<span class="skill-tag">Create project showcase</span></div></div></section>
 
-        <section class="projects-section">
-            <h2 class="section-title"><i class="fas fa-project-diagram"></i> My Projects</h2>
-            <div class="projects-grid">
-                <!-- Ren'Py RPG Framework Card -->
-                <div class="project-card">
-                    <div class="project-img" style="background: linear-gradient(135deg, var(--dark-blue) 0%, var(--navy) 100%);">
-                        <i class="fas fa-dragon" style="color: var(--accent);"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Ren'Py RPG Framework</h3>
-                        <p class="project-desc">A powerful modular system for creating turn-based RPGs on the Ren'Py engine.</p>
-                        <a href="https://kedoff.github.io/renpy_rpg_framework/framework.html" class="project-btn renpy-btn">Open Project</a>
-                    </div>
-                </div>
+<section class="projects-section">
+<h2 class="section-title"><i class="fas fa-project-diagram"></i> My Projects</h2>
+<div class="projects-grid">
+<div class="project-card"><div class="project-img" style="background:linear-gradient(135deg,var(--dark-blue)0%,var(--navy)100%)">
+<i class="fas fa-dragon pulse" style="color:var(--accent)"></i></div>
+<div class="project-content"><h3 class="project-title">Ren'Py RPG Framework</h3>
+<p class="project-desc">A powerful modular system for creating turn-based RPGs on the Ren'Py engine.</p>
+<a href="https://kedoff.github.io/renpy_rpg_framework/framework.html" class="project-btn renpy-btn">Open Project</a></div></div>
 
-                <div class="project-card">
-                    <div class="project-img" style="background: linear-gradient(135deg, var(--osu-dark-pink) 0%, var(--osu-purple) 100%);">
-                        <i class="fab fa-osu"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Osu! CPS Test</h3>
-                        <p class="project-desc">Clicks per second (CPS) and BPM consistency test for Osu! players. Measure your speed and compare with other players.</p>
-                        <a href="https://kedoff.github.io/osu_cps_test/index.html" class="project-btn">Open Project</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+<div class="project-card"><div class="project-img" style="background:linear-gradient(135deg,var(--osu-dark-pink)0%,var(--osu-purple)100%)">
+<i class="fab fa-osu pulse"></i></div>
+<div class="project-content"><h3 class="project-title">Osu! CPS Test</h3>
+<p class="project-desc">Clicks per second (CPS) and BPM consistency test for Osu! players.</p>
+<a href="https://kedoff.github.io/osu_cps_test/index.html" class="project-btn osu-btn">Open Project</a></div></div>
 
-        <footer>
-            <p>© 2025 KedOFF Projects. All rights probably protected by someone.</p>
-            <p>Thanks to GitHub Pages for the free domain.</p>
-        </footer>
-    </div>
+<div class="project-card"><div class="project-img" style="background:linear-gradient(135deg,#2a3b4c 0%,#3a4b5c 100%)">
+<i class="fas fa-plus-circle pulse" style="color:var(--accent)"></i></div>
+<div class="project-content"><h3 class="project-title">New Project Coming Soon</h3>
+<p class="project-desc">I'm working on something exciting! Stay tuned for updates on my next project.</p>
+<a href="#" class="project-btn">Coming Soon</a></div></div></div></section>
 
-    <div class="theme-toggle">
-        <i class="fas fa-magic"></i>
-    </div>
+<footer><p>© 2025 KedOFF Projects. All rights probably protected by someone.</p>
+<p>Thanks to GitHub Pages for the free domain.</p></footer></div>
 
-    <div class="notification" id="notification">
-        Welcome to my projects Hub!
-    </div>
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+particlesJS('particles-js',{particles:{number:{value:100,density:{enable:true,value_area:800}},color:{value:"#64ffda"},shape:{type:"circle"},opacity:{value:.5,random:true},size:{value:3,random:true},line_linked:{enable:true,distance:150,color:"#64ffda",opacity:.4,width:1},move:{enable:true,speed:2,direction:"none",random:true,straight:false,out_mode:"out",bounce:false}},interactivity:{detect_on:"canvas",events:{onhover:{enable:true,mode:"grab"},onclick:{enable:true,mode:"push"},resize:true},modes:{grab:{distance:140,line_linked:{opacity:.8}},push:{particles_nb:6}}},retina_detect:true});
+setTimeout(()=>window.dispatchEvent(new Event('resize')),500);
+const header=document.getElementById('main-header');
+window.addEventListener('scroll',()=>header.classList.toggle('scrolled',window.scrollY>50));
+const animateOnScroll=()=>{
+    document.querySelectorAll('.about-card, .project-card, .section-title, footer').forEach(el=>{
+        const pos=el.getBoundingClientRect();
+        if(pos.top<window.innerHeight-100)el.classList.add('visible')
+    });
+    document.querySelectorAll('.skill-tag, .social-links a, .project-btn').forEach(el=>{
+        const pos=el.getBoundingClientRect();
+        if(pos.top<window.innerHeight-100)el.classList.add('visible')
+    });
+};
+window.addEventListener('scroll',animateOnScroll);
+animateOnScroll();
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-        // Particles.js configuration
-        document.addEventListener('DOMContentLoaded', function() {
-            particlesJS('particles-js', {
-                particles: {
-                    number: { value: 80, density: { enable: true, value_area: 800 } },
-                    color: { value: "#64ffda" },
-                    shape: { type: "circle" },
-                    opacity: { value: 0.5, random: true },
-                    size: { value: 3, random: true },
-                    line_linked: {
-                        enable: true,
-                        distance: 150,
-                        color: "#64ffda",
-                        opacity: 0.4,
-                        width: 1
-                    },
-                    move: {
-                        enable: true,
-                        speed: 2,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false
-                    }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: { enable: true, mode: "repulse" },
-                        onclick: { enable: true, mode: "push" },
-                        resize: true
-                    },
-                    modes: {
-                        repulse: { distance: 100, duration: 0.4 },
-                        push: { particles_nb: 4 }
-                    }
-                },
-                retina_detect: true
-            });
+// Исправление позиционирования эффектов относительно мыши
+let mouseX = 0;
+let mouseY = 0;
 
-            // Show notification when page loads
-            const notification = document.getElementById('notification');
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
+document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    document.querySelector('.interactive-bg').style.background = `radial-gradient(circle at ${mouseX}px ${mouseY}px, rgba(37,65,111,.3) 0%, transparent 50%)`;
+});
 
-            // Header scroll effect
-            const header = document.getElementById('main-header');
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-            });
+document.addEventListener('click', e => {
+    const p = document.createElement('div');
+    p.className = 'particle-interaction';
+    p.style.left = `${e.clientX}px`;
+    p.style.top = `${e.clientY}px`;
+    document.body.appendChild(p);
+    setTimeout(() => {
+        p.style.opacity = '.5';
+        p.style.transform = 'translate(-50%, -50%) scale(2)';
+        setTimeout(() => {
+            p.style.opacity = '0';
+            setTimeout(() => p.remove(), 300);
+        }, 500);
+    }, 10);
+});
 
-            // Scroll animations
-            const animateOnScroll = function() {
-                const elements = document.querySelectorAll('.about-card, .project-card, .section-title, footer');
-                
-                elements.forEach(element => {
-                    const position = element.getBoundingClientRect();
-                    
-                    if(position.top < window.innerHeight - 100) {
-                        element.classList.add('visible');
-                    }
-                });
-            };
-
-            window.addEventListener('scroll', animateOnScroll);
-            animateOnScroll(); // Initial check
-
-            // Custom cursor effect
-            const cursor = document.querySelector('.cursor-follower');
-            document.addEventListener('mousemove', function(e) {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-
-            document.addEventListener('mouseenter', function() {
-                cursor.style.opacity = '0.5';
-            });
-
-            document.addEventListener('mouseleave', function() {
-                cursor.style.opacity = '0';
-            });
-
-            const links = document.querySelectorAll('a, button, .skill-tag, .theme-toggle');
-            links.forEach(link => {
-                link.addEventListener('mouseenter', () => {
-                    cursor.classList.add('active');
-                });
-                
-                link.addEventListener('mouseleave', () => {
-                    cursor.classList.remove('active');
-                });
-            });
-
-            // Theme toggle effect (just for fun)
-            const themeToggle = document.querySelector('.theme-toggle');
-            let hueRotate = 0;
-            
-            themeToggle.addEventListener('click', function() {
-                hueRotate += 90;
-                document.body.style.filter = `hue-rotate(${hueRotate}deg)`;
-                
-                // Show temporary notification
-                notification.textContent = `Theme shifted! (${hueRotate}°)`;
-                notification.classList.add('show');
-                
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 2000);
-            });
-
-            // Add typing effect to about text
-            const aboutTexts = document.querySelectorAll('.about-content p');
-            aboutTexts.forEach(text => {
-                const originalText = text.textContent;
-                text.textContent = '';
-                
-                let i = 0;
-                const typeWriter = setInterval(function() {
-                    if (i < originalText.length) {
-                        text.textContent += originalText.charAt(i);
-                        i++;
-                    } else {
-                        clearInterval(typeWriter);
-                    }
-                }, 30);
-            });
-        });
-    </script>
+document.querySelectorAll('.about-content p').forEach((p,i)=>{const t=p.textContent;p.textContent='';let j=0;const intr=setInterval(()=>{if(j<t.length){p.textContent+=t[j];j++}else clearInterval(intr)},30)});
+});
+window.addEventListener('resize',()=>setTimeout(()=>window.dispatchEvent(new Event('resize')),500));
+</script>
 </body>
 </html>
