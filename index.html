@@ -6,7 +6,7 @@
 <title>KedOFF Projects Hub</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-:root{--dark-blue:#050f1f;--navy:#0a192f;--light-navy:#233554;--slate:#8892b0;--light-slate:#a8b2d1;--lightest-slate:#ccd6f6;--white:#e6f1ff;--accent:#64ffda;--osu-pink:#ff66aa;--osu-dark-pink:#e64d95;--osu-purple:#a366ff;}
+:root{--dark-blue:#050f1f;--navy:#0a192f;--light-navy:#233554;--slate:#8892b0;--light-slate:#a8b2d1;--lightest-slate:#ccd6f6;--white:#e6f1ff;--accent:#64ffda;--osu-pink:#ff66aa;--osu-dark-pink:#e64d95;--osu-purple:#a366ff;--network-green:#00ff99;--network-dark-green:#00cc7f;--network-dark-bg:#061017;}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
 body{background:linear-gradient(135deg,var(--dark-blue)0%,var(--navy)100%);color:var(--light-slate);min-height:100vh;display:flex;flex-direction:column;padding:20px;line-height:1.6;overflow-x:hidden;}
 #particles-js,.interactive-bg{position:fixed;width:100%;height:100%;top:0;left:0;z-index:-1;}
@@ -69,6 +69,46 @@ nav a:hover:after{width:100%;}
 .renpy-btn:hover{background:rgba(100,255,218,.1);color:var(--white);box-shadow:0 5px 15px rgba(100,255,218,.3);}
 .osu-btn{background:linear-gradient(135deg,var(--osu-dark-pink)0%,var(--osu-purple)100%);border:none;color:var(--white);}
 .osu-btn:hover{background:linear-gradient(135deg,var(--osu-purple)0%,var(--osu-dark-pink)100%);transform:translateY(-2px);box-shadow:0 5px 15px rgba(163,102,255,.4);}
+
+/* НОВЫЙ СТИЛЬ ДЛЯ КНОПКИ NETWORK DOWNTIME EXCUSE GENERATOR */
+.network-btn {
+    background: linear-gradient(135deg, var(--network-green) 0%, var(--network-dark-green) 100%);
+    border: none;
+    color: var(--network-dark-bg);
+    font-weight: 600;
+}
+.network-btn:hover {
+    background: linear-gradient(135deg, var(--network-dark-green) 0%, var(--network-green) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 153, 0.4);
+    color: var(--network-dark-bg);
+}
+
+/* Стили для иконки Osu! */
+.osu-icon {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: pulse 2s infinite;
+}
+
+.osu-inner-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: var(--osu-dark-pink);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
 footer{text-align:center;margin-top:auto;padding:30px 0;color:var(--slate);font-size:.9rem;border-top:1px solid rgba(100,255,218,.1);opacity:0;transform:translateY(20px);transition:all .5s ease;}
 footer.visible{opacity:1;transform:translateY(0);}
 @keyframes typing{from{width:0}to{width:100%}}
@@ -101,8 +141,6 @@ footer.visible{opacity:1;transform:translateY(0);}
 <header id="main-header"><div class="logo"><i class="fas fa-code"></i><span class="logo-text">KedOFF</span></div>
 <nav><ul><li><a href="https://github.com/KedOFF" target="_blank"><i class="fab fa-github"></i> GitHub</a></li></ul></nav></header>
 
-<!-- Остальной код остается без изменений -->
-
 <section class="hero">
 <div class="about-card"><h2><i class="fas fa-user"></i> <span class="about-title-text">About Me</span></h2>
 <div class="about-content"><p>Hello! I'm a developer and enthusiast who loves creating interesting and useful projects.</p>
@@ -134,16 +172,25 @@ footer.visible{opacity:1;transform:translateY(0);}
 <a href="https://kedoff.github.io/renpy_rpg_framework/framework.html" class="project-btn renpy-btn">Open Project</a></div></div>
 
 <div class="project-card"><div class="project-img" style="background:linear-gradient(135deg,var(--osu-dark-pink)0%,var(--osu-purple)100%)">
-<i class="fab fa-osu pulse"></i></div>
+<div class="osu-icon">
+    <div class="osu-inner-circle">osu!</div>
+</div></div>
 <div class="project-content"><h3 class="project-title">Osu! CPS Test</h3>
 <p class="project-desc">Clicks per second (CPS) and BPM consistency test for Osu! players.</p>
 <a href="https://kedoff.github.io/osu_cps_test/index.html" class="project-btn osu-btn">Open Project</a></div></div>
 
-<div class="project-card"><div class="project-img" style="background:linear-gradient(135deg,#2a3b4c 0%,#3a4b5c 100%)">
-<i class="fas fa-plus-circle pulse" style="color:var(--accent)"></i></div>
-<div class="project-content"><h3 class="project-title">New Project Coming Soon</h3>
-<p class="project-desc">I'm working on something exciting! Stay tuned for updates on my next project.</p>
-<a href="#" class="project-btn">Coming Soon</a></div></div></div></section>
+<!-- НОВАЯ КАРТОЧКА ПРОЕКТА -->
+<div class="project-card">
+  <div class="project-img" style="background:linear-gradient(135deg,var(--network-dark-bg)0%,#0a1a24 100%)">
+    <i class="fas fa-network-wired pulse" style="color:var(--network-green)"></i>
+  </div>
+  <div class="project-content">
+    <h3 class="project-title">Net Downtime Excuse Generator</h3>
+    <p class="project-desc">Generator of excuses for network outages with humor and technical memes.</p>
+    <a href="https://kedoff.github.io/net_downtime_excuse_generator/net.html" class="project-btn network-btn">Open Project</a>
+  </div>
+</div>
+</div></section>
 
 <footer><p>© 2025 KedOFF Projects. All rights probably protected by someone.</p>
 <p>Thanks to GitHub Pages for the free domain.</p></footer></div>
